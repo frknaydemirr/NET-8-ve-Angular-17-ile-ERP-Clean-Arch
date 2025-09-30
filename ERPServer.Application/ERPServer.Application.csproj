@@ -20,4 +20,10 @@
     <ProjectReference Include="..\ERPServer.Domain\ERPServer.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Depots\DeleteDepotsById\" />
+    <Folder Include="Features\Depots\CreateDepots\" />
+    <Folder Include="Features\Depots\UpdateDepots\" />
+  </ItemGroup>
+
 </Project>
