@@ -16,6 +16,10 @@ namespace ERPServer.Infrastructure.Context
         public DbSet<Depot> Depots { get; set; }
 
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<Recipe> Recipes { get; set; }
+
+        public DbSet<RecipeDetail> RecipeDetails { get; set; }
         //4.Adım
 
         protected override void OnModelCreating(ModelBuilder builder)
