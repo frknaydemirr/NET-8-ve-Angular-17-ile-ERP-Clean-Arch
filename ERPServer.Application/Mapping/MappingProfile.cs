@@ -1,7 +1,13 @@
 ﻿using AutoMapper;
 using ERPServer.Application.Features.Customers.CreateCustomer;
 using ERPServer.Application.Features.Customers.UpdateCustomer;
+using ERPServer.Application.Features.Depots.CreateDepots;
+using ERPServer.Application.Features.Depots.UpdateDepots;
+using ERPServer.Application.Features.Products.CreateProducts;
+using ERPServer.Application.Features.Products.UpdateProducts;
 using ERPServer.Domain.Entities;
+using ERPServer.Domain.Enums;
+using System.Reflection.Emit;
 
 namespace ERPServer.Application.Mapping
 {
@@ -11,10 +17,19 @@ namespace ERPServer.Application.Mapping
         {
             CreateMap<CreateCustomerCommand, Customer>();
             CreateMap<UpdateCustomerCommand, Customer>();
-           
+            CreateMap<CreateDepotCommand, Depot>();
+            CreateMap<UpdateDepotCommand, Depot>();
+            CreateMap<CreateProductCommand, Product>().ForMember(member=>member.Type,options
+                =>options.MapFrom(p=>ProductTypeEnum.FromValue(p.TypeValue)));
+            //Product -> Type alanı var -> CreateCommandProductdan gelen typı enuma dönüştürüp set ediyor!
+            CreateMap<UpdateProductCommand, Product>().ForMember(member => member.Type, options
+               => options.MapFrom(p => ProductTypeEnum.FromValue(p.TypeValue)));
         }
     }
 }
+
+
+
 //Bu sınıf AutoMapper kütüphanesinin bir profili.
 //AutoMapper, nesneler arasında otomatik dönüşüm (mapping) yapar.
 //CreateCustomerCommand nesnesindeki tüm uygun property'ler (Name, TaxDepartment vb.) otomatik olarak Customer entity’sine kopyalanacak.
