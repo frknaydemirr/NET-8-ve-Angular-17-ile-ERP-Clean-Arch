@@ -3,11 +3,12 @@ using ERPServer.Application.Features.Customers.CreateCustomer;
 using ERPServer.Application.Features.Customers.UpdateCustomer;
 using ERPServer.Application.Features.Depots.CreateDepots;
 using ERPServer.Application.Features.Depots.UpdateDepots;
+using ERPServer.Application.Features.Orders.CreateOrder;
+using ERPServer.Application.Features.Orders.UpdataOrder;
 using ERPServer.Application.Features.Products.CreateProducts;
 using ERPServer.Application.Features.Products.UpdateProducts;
 using ERPServer.Domain.Entities;
 using ERPServer.Domain.Enums;
-using System.Reflection.Emit;
 
 namespace ERPServer.Application.Mapping
 {
@@ -24,6 +25,30 @@ namespace ERPServer.Application.Mapping
             //Product -> Type alanı var -> CreateCommandProductdan gelen typı enuma dönüştürüp set ediyor!
             CreateMap<UpdateProductCommand, Product>().ForMember(member => member.Type, options
                => options.MapFrom(p => ProductTypeEnum.FromValue(p.TypeValue)));
+
+
+            CreateMap<CreateOrderCommand, Order>()
+                .ForMember(member => member.Details,
+                options =>
+                options.MapFrom(p => p.Details.Select(s => new OrderDetail
+                {
+                    Price = s.Price,
+                    ProductId = s.ProductId,
+                    Quantity = s.Quantity,
+                }).ToList()));
+
+            //Dto yu orderDetail liste dönüştürür ve mapleme işlemi tamamlanır!
+
+            CreateMap<UpdateOrderCommand, Order>()
+                .ForMember(member => member.Details,
+                options =>
+                options.MapFrom(p => p.Details.Select(s => new OrderDetail
+                {
+                    Price = s.Price,
+                    ProductId = s.ProductId,
+                    Quantity = s.Quantity,
+                }).ToList()));
+           
         }
     }
 }

@@ -15,7 +15,7 @@ namespace ERPServer.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetRecipeByIdWithDetails(GetByIdRecipeWithDetaislQuery request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetRecipeByIdWithDetails(GetRecipeByIdWithDetaislQuery request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);
             return StatusCode(response.StatusCode, response);

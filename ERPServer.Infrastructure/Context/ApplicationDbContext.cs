@@ -22,6 +22,9 @@ namespace ERPServer.Infrastructure.Context
         public DbSet<RecipeDetail> RecipeDetails { get; set; }
         //4.Adım
 
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderDetail> OrderDetails { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(typeof(DependencyInjection).Assembly);
