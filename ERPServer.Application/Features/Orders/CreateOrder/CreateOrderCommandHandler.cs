@@ -24,7 +24,7 @@ namespace ERPServer.Application.Features.Orders.CreateOrder
             if ( lastOrder != null ) lastOrderNumber = lastOrder.OrderNumber;
 
             Order order = mapper.Map<Order>(request);
-            order.OrderNumber = lastOrderNumber++;
+            order.OrderNumber = lastOrderNumber+1;
             order.OrderNumberYear = request.Date.Year;
 
 

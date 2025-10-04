@@ -11,17 +11,31 @@ namespace ERPServer.Domain.Entities
 
         public int OrderNumberYear { get; set; }
 
-        public int OrderNumber { get; set; } 
+        public int OrderNumber { get; set; }
 
+        public string Number => SetNumber();
+        public DateOnly Date { get; set; }
 
-        public DateTime Date { get; set; }
-
-        public DateTime DeliveryDate { get; set; }
+        public DateOnly DeliveryDate { get; set; }
 
 
         public OrderStatusEnum  Status { get; set; } = OrderStatusEnum.Pending;
 
         public List<OrderDetail>? Details { get; set; }
+
+
+        public string SetNumber()
+        {
+            string prefix = "FA";
+            string initialString = prefix + OrderNumberYear.ToString() + Number.ToString();
+            int targetLenght = 16;
+            int missingLenght = targetLenght - initialString.Length;
+            string finalString = prefix+OrderNumberYear.ToString() + new string('0',missingLenght)
+                +OrderNumber.ToString();
+
+            return finalString;
+
+        }
 
     }
 
