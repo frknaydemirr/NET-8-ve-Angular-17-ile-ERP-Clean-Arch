@@ -26,6 +26,8 @@ namespace ERPServer.Infrastructure.Context
 
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
+        public DbSet<StockMovement> StockMovements { get; set; }
+
         public DbSet<Invoice> Invoices { get; set; }
 
         public DbSet<InvoiceDetails> InvoiceDetails { get; set; }

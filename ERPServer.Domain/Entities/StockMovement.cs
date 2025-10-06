@@ -10,16 +10,19 @@ namespace ERPServer.Domain.Entities
 
         public Guid DepotId { get; set; }
 
-        public decimal  NumberOfEntries { get; set; }
-
-        public Guid NumberOfOutputs { get; set; }
 
         public decimal Price { get; set; }
 
+        public decimal  NumberOfEntries { get; set; }
+
+        public decimal NumberOfOutputs { get; set; }
+
         public Guid? InvoiceId { get; set; }
+
 
         public Invoice? Invoice { get; set; }
 
-
     }
 }
+
+//stoğumuzun giriş ve çıkış adedi olacak!
