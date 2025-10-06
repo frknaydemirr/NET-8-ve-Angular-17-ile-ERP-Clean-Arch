@@ -9,6 +9,9 @@ public sealed class InvoiceDetails : Entity
 
     public Product? Product { get; set; }
 
+    public Guid DepotId { get; set; }
+
+    public Depot? Depot { get; set; }
     public decimal Quantity { get; set; }
 
     public decimal Price { get; set; }

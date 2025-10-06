@@ -29,11 +29,12 @@ public sealed class OrdersController : ApiController
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteById(DeleteOrderByIdCommand request, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteById([FromBody] DeleteOrderByIdCommand request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);
         return StatusCode(response.StatusCode, response);
     }
+
 
     [HttpPost]
     public async Task<IActionResult> Update(UpdateOrderCommand request, CancellationToken cancellationToken)

@@ -27,15 +27,15 @@ namespace ERPServer.Domain.Entities
         public string SetNumber()
         {
             string prefix = "FA";
-            string initialString = prefix + OrderNumberYear.ToString() + Number.ToString();
+            string initialString = prefix + OrderNumberYear.ToString() + OrderNumber.ToString();
             int targetLenght = 16;
             int missingLenght = targetLenght - initialString.Length;
-            string finalString = prefix+OrderNumberYear.ToString() + new string('0',missingLenght)
-                +OrderNumber.ToString();
+            string finalString = prefix + OrderNumberYear.ToString() + new string('0', missingLenght)
+                + OrderNumber.ToString();
 
             return finalString;
-
         }
+
 
     }
 

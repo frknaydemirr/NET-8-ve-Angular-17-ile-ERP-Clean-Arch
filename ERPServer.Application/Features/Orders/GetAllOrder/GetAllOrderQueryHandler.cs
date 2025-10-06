@@ -20,7 +20,7 @@ namespace ERPServer.Application.Features.Orders.GetAllOrder
                 .OrderByDescending(p=>p.Date)
                 .ToListAsync(cancellationToken);
 
-            return orders;
+            return Result<List<Order>>.Succeed(orders);
         }
     }
 }

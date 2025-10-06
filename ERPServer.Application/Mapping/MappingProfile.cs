@@ -3,10 +3,13 @@ using ERPServer.Application.Features.Customers.CreateCustomer;
 using ERPServer.Application.Features.Customers.UpdateCustomer;
 using ERPServer.Application.Features.Depots.CreateDepots;
 using ERPServer.Application.Features.Depots.UpdateDepots;
+using ERPServer.Application.Features.Invoices.CreateInvoice;
 using ERPServer.Application.Features.Orders.CreateOrder;
 using ERPServer.Application.Features.Orders.UpdataOrder;
 using ERPServer.Application.Features.Products.CreateProducts;
 using ERPServer.Application.Features.Products.UpdateProducts;
+using ERPServer.Application.Features.Recipes.RecipeDetails.CreateRecipeDetail;
+using ERPServer.Application.Features.Recipes.RecipeDetails.UpdateRecipeDetail;
 using ERPServer.Domain.Entities;
 using ERPServer.Domain.Enums;
 
@@ -27,6 +30,15 @@ namespace ERPServer.Application.Mapping
                => options.MapFrom(p => ProductTypeEnum.FromValue(p.TypeValue)));
 
 
+            CreateMap<CreateRecipeDetailCommand, RecipeDetail>();
+            CreateMap<UpdateRecipeDetailCommand, RecipeDetail>();
+
+
+
+
+
+
+
             CreateMap<CreateOrderCommand, Order>()
                 .ForMember(member => member.Details,
                 options =>
@@ -34,21 +46,31 @@ namespace ERPServer.Application.Mapping
                 {
                     Price = s.Price,
                     ProductId = s.ProductId,
-                    Quantity = s.Quantity,
+                    Quantity = s.Quantity
                 }).ToList()));
 
-            //Dto yu orderDetail liste dönüştürür ve mapleme işlemi tamamlanır!
+            CreateMap<UpdateOrderCommand, Order>().ForMember(member => member.Details, options =>
+            options.Ignore());
+             
 
-            CreateMap<UpdateOrderCommand, Order>()
-                .ForMember(member => member.Details,
-                options =>
-                options.MapFrom(p => p.Details.Select(s => new OrderDetail
-                {
-                    Price = s.Price,
-                    ProductId = s.ProductId,
-                    Quantity = s.Quantity,
-                }).ToList()));
-           
+
+
+            
+            
+
+            CreateMap<CreateInvoiceCommand, Invoice>()
+                .ForMember(member=>member.Type,options=>
+                options.MapFrom(p=>InvoiceTypeEnum.FromValue(p.Type)))
+               .ForMember(member => member.Details,
+               options =>
+               options.MapFrom(p => p.Details.Select(s => new OrderDetail
+               {
+                   Price = s.Price,
+                   ProductId = s.ProductId,
+                   Quantity = s.Quantity,
+               }).ToList()));
+
+
         }
     }
 }

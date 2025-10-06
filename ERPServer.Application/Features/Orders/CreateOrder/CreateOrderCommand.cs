@@ -1,4 +1,7 @@
-﻿using ERPServer.Domain.Dtos;
+﻿using AutoMapper;
+using ERPServer.Domain.Dtos;
+using ERPServer.Domain.Repository;
+using GenericRepository;
 using MediatR;
 using TS.Result;
 
@@ -8,6 +11,11 @@ namespace ERPServer.Application.Features.Orders.CreateOrder
         Guid CustomerId,
         DateOnly Date,
         DateOnly DeliveryDate,
-        List<OrderDetailDto> Details
+        List<InvoiceDetailDto> Details
         ) : IRequest<Result<string>>;
+
+
+
+   
 }
+

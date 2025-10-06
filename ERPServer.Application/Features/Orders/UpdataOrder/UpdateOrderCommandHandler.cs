@@ -27,11 +27,24 @@ namespace ERPServer.Application.Features.Orders.UpdataOrder
                 return Result<string>.Failure("Sipariş Bulunamadı!");
             }
 
-            orderDetailRepository.DeleteRange(order.Details);
+           orderDetailRepository.DeleteRange(order.Details);
 
+            List<OrderDetail> newDetails = request.Details.Select(s => new OrderDetail
+            {
+                OrderId = order.Id,
+                Price = s.Price,
+                ProductId = s.ProductId,
+                Quantity = s.Quantity
 
+            }).ToList();
+
+            await orderDetailRepository.AddRangeAsync(newDetails, cancellationToken);
+
+            //update den sonra maplemeden sonra yeni kaydı uçuruyor
             mapper.Map(request, order);
 
+
+            orderRepository.Update(order);
 
             await unitOfWork.SaveChangesAsync();
 

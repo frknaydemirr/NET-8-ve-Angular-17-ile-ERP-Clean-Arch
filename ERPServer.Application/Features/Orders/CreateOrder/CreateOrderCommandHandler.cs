@@ -6,51 +6,52 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TS.Result;
 
-namespace ERPServer.Application.Features.Orders.CreateOrder
+namespace ERPServer.Application.Features.Orders.CreateOrder;
+
+internal sealed class CreateOrderCommandHandler(
+    IOrderRepository orderRepository,
+    IUnitOfWork unitOfWork,
+    IMapper mapper) : IRequestHandler<CreateOrderCommand, Result<string>>
 {
-    internal sealed class CreateOrderCommandHandler(
-        IOrderRepository orderRepository,
-        IUnitOfWork unitOfWork,
-        IMapper mapper
-        ) : IRequestHandler<CreateOrderCommand, Result<string>>
+    public async Task<Result<string>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
-        public async Task<Result<string>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
-        {
-            Order? lastOrder = await orderRepository.Where(p => p.OrderNumberYear == request.Date.Year)
-                .OrderByDescending(p => p.OrderNumber)
-                .FirstOrDefaultAsync(cancellationToken);
+        Order? lastOrder =
+            await orderRepository
+            .Where(p => p.OrderNumberYear == request.Date.Year)
+            .OrderByDescending(p => p.OrderNumber)
+            .FirstOrDefaultAsync(cancellationToken);
 
-            int lastOrderNumber = 0;
-            if ( lastOrder != null ) lastOrderNumber = lastOrder.OrderNumber;
+        int lastOrderNumber = 0;
 
-            Order order = mapper.Map<Order>(request);
-            order.OrderNumber = lastOrderNumber+1;
-            order.OrderNumberYear = request.Date.Year;
+        if (lastOrder is not null) lastOrderNumber = lastOrder.OrderNumber;
 
+        Order order = mapper.Map<Order>(request);
+        order.OrderNumber = lastOrderNumber + 1;
+        order.OrderNumberYear = request.Date.Year;
 
+        await orderRepository.AddAsync(order, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            //-> Mapper kullanmaya karar verdik!
-
-            //List<OrderDetail> details = request.Details.Select(s=>new OrderDetail
-            //{
-            //    Price=s.Price,
-            //    ProductId= s.ProductId,
-            //    Quantity= s.Quantity,
-            //}).ToList();
-
-            //Order order = new()
-            //{
-            //    CustomerId = request.CustomerId,
-            //    Date = request.Date,
-            //    DeliveryDate = request.DeliveryDate,
-            //    OrderNumber = lastOrderNumber++,
-            //    OrderNumberYear= request.Date.Year,
-            //    Details= details
-            //};
-
-            await orderRepository.AddAsync( order ,cancellationToken);
-            await unitOfWork.SaveChangesAsync();
-            return "Sipariş Başarıyla Oluşturuldu!"; 
-        }
+        return "Sipariş başarıyla oluşturuldu";
     }
 }
+
+
+//-> Mapper kullanmaya karar verdik!
+
+//List<OrderDetail> details = request.Details.Select(s=>new OrderDetail
+//{
+//    Price=s.Price,
+//    ProductId= s.ProductId,
+//    Quantity= s.Quantity,
+//}).ToList();
+
+//Order order = new()
+//{
+//    CustomerId = request.CustomerId,
+//    Date = request.Date,
+//    DeliveryDate = request.DeliveryDate,
+//    OrderNumber = lastOrderNumber++,
+//    OrderNumberYear= request.Date.Year,
+//    Details= details
+//};
