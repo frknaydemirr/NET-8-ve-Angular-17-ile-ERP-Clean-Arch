@@ -10,8 +10,7 @@ ASP.NET Core için Clean Architecture başlangıç projesi. [Clean Architecture]
   - [Versions](#versions)
   - [Getting Started](#getting-started)
 
-## Give a start! :star:
-Eğer bu projeyi kullanıyor ya da beğendiyseniz yıldız vererek destek olabilirsiniz. Teşekkürler!
+
 
 ## Versions
 
